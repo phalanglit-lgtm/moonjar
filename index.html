@@ -1,89 +1,287 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>สำหรับพี่เอิร์ธจากชิน</title>
-  <meta name="description" content="เว็บเล็กๆ ที่ชินทำให้พี่เอิร์ธ—จดหมาย เพลง ความทรงจำ และตัวนับถอยหลังวันที่ได้เจอกันอีกครั้ง" />
-  <meta property="og:title" content="สำหรับพี่เอิร์ธจากชิน" />
-  <meta property="og:description" content="จดหมาย เพลง ความทรงจำ และ Countdown ของเรา 💙" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="og.png" />
-  <link rel="icon" href="favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>สำหรับพี่เอิร์ธ 💙</title>
+  <style>
+    :root{
+      --bg:#0b1536;         /* กน้ำเงินกลางคืน */
+      --card:#111b44;       /* กน้ำเงินอ่อน */
+      --text:#f5f7ff;       /* ข้อความ */
+      --muted:#bcd1ff;      /* ข้อความรอง */
+      --accent:#ffd166;     /* เหลืองอบอุ่น */
+      --line:#22306c;       /* เส้นขอบ */
+      --radius:16px;
+      --shadow:0 8px 24px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      overflow-x:hidden;
+    }
+
+    /* starfield canvas covers bg */
+    #stars{
+      position:fixed; inset:0;
+      width:100vw; height:100vh;
+      z-index:-1;
+    }
+
+    .container{
+      max-width:900px;
+      margin:min(8vh,64px) auto;
+      padding:0 16px;
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(4px);
+    }
+
+    header.hero{
+      padding:32px 24px 20px;
+      text-align:center;
+    }
+    .moon{
+      width:56px; height:56px; border-radius:50%;
+      margin:0 auto 12px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ffe8a6 40%, #d9c06d 70%, rgba(0,0,0,.15) 72%);
+      box-shadow: 0 0 24px rgba(255,209,102,.55), inset -8px -10px 18px rgba(0,0,0,.15);
+      position:relative;
+    }
+    .title{
+      font-weight:700; font-size:clamp(20px, 3.6vw, 28px);
+      letter-spacing:.3px;
+    }
+    .subtitle{
+      margin-top:8px; color:var(--muted);
+      font-size:clamp(14px, 2.6vw, 16px);
+    }
+
+    /* tabs */
+    .tabs{
+      display:flex; gap:10px; padding:12px; border-top:1px solid var(--line);
+    }
+    .tabs button{
+      appearance:none; border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      padding:10px 14px; border-radius:999px; cursor:pointer;
+      font-weight:600; letter-spacing:.2px;
+    }
+    .tabs button.active{ background:var(--accent); color:#1b1b1b; border-color:#f6c24a }
+
+    .tab{ display:none; padding:18px 18px 26px }
+    .tab.active{ display:block }
+
+    /* home content */
+    .note{
+      padding:18px; border:1px dashed var(--line); border-radius:12px;
+      background:rgba(17,27,68,.35);
+      line-height:1.7;
+    }
+
+    /* gallery */
+    .grid{
+      display:grid; gap:12px;
+      grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    }
+    .grid img{
+      width:100%; height:220px; object-fit:cover; border-radius:12px;
+      border:1px solid var(--line);
+      box-shadow:0 6px 16px rgba(0,0,0,.25);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .grid img:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.33) }
+
+    /* countdown */
+    .cd-wrap{
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+    }
+    .pill{
+      min-width:120px; text-align:center; padding:14px 12px;
+      border-radius:14px; border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+    }
+    .pill .num{ font-size:28px; font-weight:800; letter-spacing:.5px }
+    .pill .lab{ font-size:12px; color:var(--muted); letter-spacing:.2px }
+
+    footer{
+      color:var(--muted);
+      text-align:center; margin:22px 0 48px;
+      font-size:13px;
+    }
+
+    /* responsive paddings */
+    @media (max-width:560px){
+      .tabs{ flex-wrap:wrap }
+      .pill{ min-width:calc(50% - 6px) }
+    }
+  </style>
 </head>
 <body>
-  <canvas id="stars"></canvas>
-  <main id="app" class="hidden">
-    <header class="wrap">
-      <h1>ถึงพี่เอิร์ธ 💙</h1>
-      <p class="sub">เว็บนี้ชินทำให้พี่คนเดียว—เปิดดูเมื่ออยากรับพลังใจ หรือคิดถึงกันนะครับ</p>
-      <nav class="tabs">
-        <button data-tab="letter" class="active">จดหมาย</button>
-        <button data-tab="notes">โน้ตน่ารัก</button>
-        <button data-tab="gallery">รูปของเรา</button>
-        <button data-tab="playlist">เพลย์ลิสต์</button>
+  <!-- Starry sky -->
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <div class="container">
+    <div class="card">
+      <header class="hero">
+        <div class="moon" aria-hidden="true"></div>
+        <div class="title">ถึงพี่เอิร์ธจากชิน 🌙</div>
+        <div class="subtitle">ไม่ว่าจะไกลแค่ไหน…ใจของชินอยู่ข้าง ๆ พี่เสมอ</div>
+      </header>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="active" data-tab="home">Home</button>
+        <button data-tab="gallery">Gallery</button>
         <button data-tab="countdown">Countdown</button>
-      </nav>
-    </header>
-
-    <section id="letter" class="wrap tab active">
-      <div class="card">
-        <p>ถึงพี่เอิร์ธ… ชินอาจไปส่งพี่ไม่ได้ แต่ชินอยู่ข้างๆพี่เสมอนะคั้บ ขอให้การเดินทางครั้งนี้ราบรื่น เจอแต่สิ่งดี ๆ ถ้ามีอะไรหนักใจหรืออยากระบาย โทรหาชินได้เลยนะ ชินอาจช่วยแก้ไม่ได้ทุกเรื่อง แต่จะคอยฟังและเป็นกำลังใจให้เสมอ อีกแค่หนึ่งปีเอง แล้วเราจะได้กอดกันแน่น ๆ อีกครั้ง 💙</p>
-        <p class="right">รักเสมอ<br/>ชิน</p>
       </div>
-    </section>
 
-    <section id="notes" class="wrap tab">
-      <div class="grid">
-        <div class="note">ดื่มน้ำเยอะ ๆ นะคั้บ</div>
-        <div class="note">ถ้าวันไหนเครียด ให้ลองพักหายใจลึกๆ 10 วินะะ</div>
-        <div class="note">คืนนี้มองพระจันทร์ด้วยกันไหม 🌙</div>
-        <div class="note">ชินภูมิใจในตัวพี่มากๆเลยนะ</div>
-      </div>
-    </section>
+      <!-- Tab: Home -->
+      <section id="home" class="tab active">
+        <div class="note">
+          <!-- ✏️ แก้ข้อความนี้ได้ตามใจ -->
+          สวัสดีครับพี่เอิร์ธ ชินทำเว็บนี้ไว้ให้พี่คนเดียวเลยนะ 💙<br/>
+          ถ้าวันไหนคิดถึงกันก็เปิดหน้านี้ แล้วมองพระจันทร์ดวงเดียวกัน—ชินอยู่ข้าง ๆ พี่เสมอ<br/>
+          <br/>
+          <strong>ปล.</strong> ลองกดแท็บ Gallery เพื่อดูรูป และ Countdown เพื่อนับถอยหลังวันที่เราจะได้เจอกันอีกครั้งนะครับ ✨
+        </div>
+      </section>
 
-    <section id="gallery" class="wrap tab">
-      <p class="muted">ใส่รูปของเราที่โฟลเดอร์ <code>/images</code> แล้วแก้ไขลิสต์รูปใน <code>script.js</code> ได้เลย</p>
-      <div id="gallery-grid" class="grid"></div>
-    </section>
+      <!-- Tab: Gallery -->
+      <section id="gallery" class="tab">
+        <div class="grid" id="gallery-grid">
+          <!-- ✏️ ใส่รูปของคุณเองได้ที่ด้านล่างในสคริปต์ -->
+        </div>
+      </section>
 
-    <section id="playlist" class="wrap tab">
-      <p class="muted">ฝังเพลย์ลิสต์จาก YouTube/Spotify ได้ที่นี่</p>
-      <div class="player">
-        <!-- ตัวอย่าง YouTube -->
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL4fGSI1pDJn66tQpJ1Rk5o1u6m6o3u7qJ" title="YouTube playlist" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </section>
-
-    <section id="countdown" class="wrap tab">
-      <h2>อีกกี่วันเราจะได้เจอกัน?</h2>
-      <div class="countdown">
-        <div><span id="cd-days">0</span><small>Days</small></div>
-        <div><span id="cd-hours">0</span><small>Hours</small></div>
-        <div><span id="cd-mins">0</span><small>Mins</small></div>
-        <div><span id="cd-secs">0</span><small>Secs</small></div>
-      </div>
-      <p class="muted">ตั้งวันที่จะได้เจอกันอีกครั้งใน <code>script.js</code> (ตัวแปร <code>NEXT_MEET_DATE</code>)</p>
-    </section>
-  </main>
-
-  <!-- Soft password gate -->
-  <div id="gate" class="gate">
-    <div class="gate-card">
-      <h2>สำหรับพี่เอิร์ธเท่านั้น</h2>
-      <p class="muted">ใส่คำผ่านเล็ก ๆ ของเรา</p>
-      <form id="gate-form">
-        <input type="password" id="pass" placeholder="รหัสของเรา…" autocomplete="current-password" />
-        <button type="submit">เข้าชม</button>
-      </form>
-      <p class="hint">* บอกเป็นใบ้: ดวงดาวกับท้องฟ้า 🌌</p>
+      <!-- Tab: Countdown -->
+      <section id="countdown" class="tab">
+        <p style="margin:0 0 10px;color:var(--muted)">นับถอยหลังวันที่เราจะได้กอดกันอีกครั้ง 💫</p>
+        <div class="cd-wrap">
+          <div class="pill"><div id="cd-days" class="num">0</div><div class="lab">Days</div></div>
+          <div class="pill"><div id="cd-hours" class="num">0</div><div class="lab">Hours</div></div>
+          <div class="pill"><div id="cd-mins" class="num">0</div><div class="lab">Minutes</div></div>
+          <div class="pill"><div id="cd-secs" class="num">0</div><div class="lab">Seconds</div></div>
+        </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px">
+          <!-- ✏️ เปลี่ยนวันที่เป้าหมายได้ในสคริปต์ด้านล่าง (NEXT_MEET_DATE) -->
+          * เวลาในเครื่องของพี่จะใช้คำนวณอัตโนมัติ
+        </div>
+      </section>
     </div>
+
+    <footer>
+      ทำด้วยรัก—ชิน 💙
+    </footer>
   </div>
 
-  <script src="script.js" defer></script>
+  <script defer>
+    // ================== SETTINGS (แก้ค่าได้) ==================
+    const NEXT_MEET_DATE = "2026-09-17"; // YYYY-MM-DD — วันที่จะได้เจอกันอีกครั้ง
+    const GALLERY_IMAGES = [
+      // ✏️ ใส่พาธรูปของคุณเอง เช่น
+      // "images/earth-1.jpg",
+      // "images/earth-2.jpg",
+      // หรือใช้ลิงก์เต็มก็ได้: "https://example.com/xxx.jpg"
+    ];
+
+    // ================== TABS ==================
+    document.querySelectorAll('.tabs button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById(btn.dataset.tab);
+        if(target) target.classList.add('active');
+      });
+    });
+
+    // ================== STARFIELD ==================
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let w,h,stars=[];
+    function resize(){
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      // จำนวนดาวปรับตามพื้นที่จอ
+      const count = Math.floor((w*h)/4000);
+      stars = Array.from({length: count}, ()=> ({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*1.2 + 0.2,
+        a: Math.random()*0.5 + 0.3,
+        v: Math.random()*0.5 + 0.1
+      }));
+    }
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      const t = Date.now();
+      for(const s of stars){
+        ctx.globalAlpha = s.a + Math.sin((t/500)*s.v)*0.2;
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize(); draw();
+
+    // ================== GALLERY ==================
+    const grid = document.getElementById('gallery-grid');
+    if (grid && GALLERY_IMAGES.length){
+      GALLERY_IMAGES.forEach(src=>{
+        const el = document.createElement('img');
+        el.src = src;
+        el.loading = "lazy";
+        grid.appendChild(el);
+      });
+    } else if (grid) {
+      // ตัวอย่าง placeholder ถ้ายังไม่ใส่รูป
+      const placeholders = 6;
+      for (let i=0;i<placeholders;i++){
+        const el = document.createElement('img');
+        el.src = `https://picsum.photos/seed/moon${i}/600/400`;
+        el.alt = "memory";
+        el.loading = "lazy";
+        grid.appendChild(el);
+      }
+    }
+
+    // ================== COUNTDOWN ==================
+    const cdDays  = document.getElementById('cd-days');
+    const cdHours = document.getElementById('cd-hours');
+    const cdMins  = document.getElementById('cd-mins');
+    const cdSecs  = document.getElementById('cd-secs');
+    const target  = new Date(`${NEXT_MEET_DATE}T00:00:00`);
+
+    function setNum(el,val){ if(el) el.textContent = String(val); }
+
+    function tick(){
+      const now = new Date();
+      const diff = target - now;
+      if (diff <= 0){
+        setNum(cdDays,0); setNum(cdHours,0); setNum(cdMins,0); setNum(cdSecs,0);
+        return;
+      }
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor((diff / (1000*60*60)) % 24);
+      const m = Math.floor((diff / (1000*60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      setNum(cdDays,d); setNum(cdHours,h); setNum(cdMins,m); setNum(cdSecs,s);
+    }
+    tick(); setInterval(tick, 1000);
+  </script>
 </body>
 </html>
