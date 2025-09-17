@@ -1,0 +1,76 @@
+/* Minimal cute starry theme */
+:root{
+  --bg:#0b1230;
+  --card:#0f1a3d;
+  --accent:#ffd966;
+  --text:#e9eeff;
+  --muted:#9fb0ff;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"Sarabun","Kanit",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;
+  color:var(--text);
+  background: radial-gradient(1200px 600px at 70% -10%, #20306b 0%, transparent 60%), var(--bg);
+  overflow-x:hidden;
+}
+#stars{position:fixed;inset:0;z-index:0}
+.hidden{display:none}
+.wrap{position:relative; z-index:1; max-width:960px; margin:0 auto; padding:24px}
+h1{font-weight:600; letter-spacing:.3px}
+.sub{color:var(--muted)}
+.tabs{display:flex; gap:8px; margin:16px 0 0}
+.tabs button{
+  background:#1a2658; color:#e9eeff; border:1px solid #2a3a7d;
+  padding:8px 14px; border-radius:999px; cursor:pointer
+}
+.tabs button.active{background:#2a3a7d}
+.tab{display:none}
+.tab.active{display:block}
+.card{
+  background:linear-gradient(180deg,#101b42, #0c1636);
+  border:1px solid #23306d;
+  border-radius:16px; padding:20px; line-height:1.9
+}
+.card .right{text-align:right; margin-top:20px}
+.grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.note{
+  background:linear-gradient(180deg,#11214b,#0e1a3d);
+  border:1px dashed #2b3a78; border-radius:14px; padding:14px; min-height:80px
+}
+.player{display:flex; justify-content:center; padding:12px}
+.countdown{display:flex; gap:14px; margin:16px 0}
+.countdown div{
+  background:#101b42; border:1px solid #22306c; border-radius:12px; padding:14px 18px; text-align:center; min-width:90px
+}
+.countdown span{font-size:28px; font-weight:600; display:block}
+.muted{color:var(--muted)}
+
+/* Gate */
+.gate{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(160deg,#0b1230 0%, rgba(11,18,48,.9) 100%);
+  z-index:3;
+}
+.gate-card{
+  width:min(92vw,420px);
+  background:linear-gradient(180deg,#0d1740,#091332);
+  border:1px solid #22306c; border-radius:18px; padding:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+.gate-card h2{margin:0 0 8px}
+#gate-form{display:flex; gap:8px; margin-top:12px}
+#gate-form input{
+  flex:1; padding:10px 12px; border-radius:12px; border:1px solid #28377a;
+  background:#0c1536; color:#e9eeff;
+}
+#gate-form button{
+  padding:10px 14px; border-radius:12px; border:1px solid #30428e;
+  background:#22306c; color:#e9eeff; cursor:pointer
+}
+
+/* Responsive */
+@media (max-width:560px){
+  .countdown div{min-width:72px}
+}

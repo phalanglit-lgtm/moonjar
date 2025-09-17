@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>สำหรับพี่เอิร์ธจากชิน</title>
+  <meta name="description" content="เว็บเล็กๆ ที่ชินทำให้พี่เอิร์ธ—จดหมาย เพลง ความทรงจำ และตัวนับถอยหลังวันที่ได้เจอกันอีกครั้ง" />
+  <meta property="og:title" content="สำหรับพี่เอิร์ธจากชิน" />
+  <meta property="og:description" content="จดหมาย เพลง ความทรงจำ และ Countdown ของเรา 💙" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="og.png" />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <main id="app" class="hidden">
+    <header class="wrap">
+      <h1>ถึงพี่เอิร์ธ 💙</h1>
+      <p class="sub">เว็บนี้ชินทำให้พี่คนเดียว—เปิดดูเมื่ออยากรับพลังใจ หรือคิดถึงกันนะครับ</p>
+      <nav class="tabs">
+        <button data-tab="letter" class="active">จดหมาย</button>
+        <button data-tab="notes">โน้ตน่ารัก</button>
+        <button data-tab="gallery">รูปของเรา</button>
+        <button data-tab="playlist">เพลย์ลิสต์</button>
+        <button data-tab="countdown">Countdown</button>
+      </nav>
+    </header>
+
+    <section id="letter" class="wrap tab active">
+      <div class="card">
+        <p>ถึงพี่เอิร์ธ… ชินอาจไปส่งพี่ไม่ได้ แต่ชินอยู่ข้าง ๆ พี่เสมอนะครับ ขอให้การเดินทางครั้งนี้ราบรื่น เจอแต่สิ่งดี ๆ ถ้ามีอะไรหนักใจหรืออยากระบาย โทรหาชินได้เลยนะ ชินอาจช่วยแก้ไม่ได้ทุกเรื่อง แต่จะคอยฟังและเป็นกำลังใจให้เสมอ อีกแค่หนึ่งปีเอง แล้วเราจะได้กอดกันแน่น ๆ อีกครั้ง 💙</p>
+        <p class="right">รักเสมอ<br/>ชิน</p>
+      </div>
+    </section>
+
+    <section id="notes" class="wrap tab">
+      <div class="grid">
+        <div class="note">ดื่มน้ำเยอะ ๆ นะครับ</div>
+        <div class="note">ถ้าวันไหนเครียด ให้พักหายใจลึก ๆ 10 วินาที</div>
+        <div class="note">คืนนี้มองพระจันทร์ด้วยกันไหม 🌙</div>
+        <div class="note">ชินภูมิใจในตัวพี่มาก ๆ เลย</div>
+      </div>
+    </section>
+
+    <section id="gallery" class="wrap tab">
+      <p class="muted">ใส่รูปของเราที่โฟลเดอร์ <code>/images</code> แล้วแก้ไขลิสต์รูปใน <code>script.js</code> ได้เลย</p>
+      <div id="gallery-grid" class="grid"></div>
+    </section>
+
+    <section id="playlist" class="wrap tab">
+      <p class="muted">ฝังเพลย์ลิสต์จาก YouTube/Spotify ได้ที่นี่</p>
+      <div class="player">
+        <!-- ตัวอย่าง YouTube -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL4fGSI1pDJn66tQpJ1Rk5o1u6m6o3u7qJ" title="YouTube playlist" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section id="countdown" class="wrap tab">
+      <h2>อีกกี่วันเราจะได้เจอกัน?</h2>
+      <div class="countdown">
+        <div><span id="cd-days">0</span><small>Days</small></div>
+        <div><span id="cd-hours">0</span><small>Hours</small></div>
+        <div><span id="cd-mins">0</span><small>Mins</small></div>
+        <div><span id="cd-secs">0</span><small>Secs</small></div>
+      </div>
+      <p class="muted">ตั้งวันที่จะได้เจอกันอีกครั้งใน <code>script.js</code> (ตัวแปร <code>NEXT_MEET_DATE</code>)</p>
+    </section>
+  </main>
+
+  <!-- Soft password gate -->
+  <div id="gate" class="gate">
+    <div class="gate-card">
+      <h2>สำหรับพี่เอิร์ธเท่านั้น</h2>
+      <p class="muted">ใส่คำผ่านเล็ก ๆ ของเรา</p>
+      <form id="gate-form">
+        <input type="password" id="pass" placeholder="รหัสของเรา…" autocomplete="current-password" />
+        <button type="submit">เข้าชม</button>
+      </form>
+      <p class="hint">* บอกเป็นใบ้: ดวงดาวกับท้องฟ้า 🌌</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
