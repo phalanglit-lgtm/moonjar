@@ -1,5 +1,5 @@
 // Simple stars, tabs, soft password gate, gallery, and countdown
-const PASSWORD_HASH = "earth-love".split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+const PASSWORD_HASH = "foryou".split('').reduce((a,c)=>a+c.charCodeAt(0),0);
 // If you want a new password, change "earth-love" above, or compute a simple sum.
 
 // gate
